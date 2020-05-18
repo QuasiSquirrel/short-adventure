@@ -1,0 +1,17 @@
+abcghjklmopqrtuvwxyz
+abcdefghijklmnopqrstuvwxyz
+friendsabcghjklmopqtuvwxyz
+
+hllg ft jn taplusa fjrnp nynq ld
+
+People say you should put your ABC's first.
+I argue you should put your FRIENDSes first!
+
+TODO:
+Nicer grid puzzle - done
+notes for grid - done
+scene switchers - done
+dialogs - done
+css transitions for scenes - kinda done
+alphabet hint click event - done
+css transition for canopy
