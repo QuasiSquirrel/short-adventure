@@ -68,7 +68,6 @@ export default {
       })
       bus.$on('happy-birthday', () => {
          this.happy = true;
-         
       })
    }
 }
