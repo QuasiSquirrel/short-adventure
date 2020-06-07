@@ -13,12 +13,10 @@
 </template>
 
 <script>
-import {bus} from '../../main'
-
 export default {
-   props:{
-      scene:{
-         type: Number
+   computed:{
+      scene(){
+         return this.$store.state.scene
       }
    },
    data(){
@@ -89,7 +87,7 @@ export default {
          if(this.step === 3){
             this.compareMeasure = Math.round(Math.round((this.startTime - this.previousTime)/10) / Math.round(this.measure/10))
          }if(this.compareMeasure === 2){
-            bus.$emit('flute-finished')
+            this.$store.state.puzzleFinish.flute = true;
          }
       },
       resetter(){   

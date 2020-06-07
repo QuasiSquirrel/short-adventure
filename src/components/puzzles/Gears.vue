@@ -26,6 +26,7 @@ export default {
          let elapsedTime;
          const animationTime = 4000;
          let startTime;
+         let store = this.$store
          setTimeout(() => {
             startTime = Date.now();
             for (let i in this.$refs) {
@@ -44,7 +45,8 @@ export default {
                   animate(target);
                }
                else {
-                  bus.$emit('gears-finished'); //to App & Dialog
+                  store.state.puzzleFinish.gears = true;
+                  store.state.conditionals.gears = true;
                   return;
                }
             });

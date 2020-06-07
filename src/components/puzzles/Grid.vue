@@ -10,12 +10,12 @@
 import {bus} from "../../main"
 
 export default {
-   props:{
-      finished: {
-         type: Object
+   computed:{
+      finished(){
+         return this.$store.state.puzzleFinish
       },
-      filter: {
-         type: Boolean
+      filter(){
+         return this.$store.state.filter
       }
    },
    data(){
@@ -37,7 +37,7 @@ export default {
          for(let i = 0; i < valids.length; i++){
             if(valids[i].id === '0'){               
                if(!this.finished.gears){
-                  bus.$emit("gears-unfinished-dialog") // to Dialog
+                  this.$store.state.conditionals.lockedGrid = true;
                   return
                }
                this.slide(event.target, valids[i]);
@@ -53,7 +53,6 @@ export default {
             }
          }
       },
-
       arrayHelper(id, rows){
          let valids = [];
          for(let i = 0; i < rows.length; i++){
@@ -72,7 +71,6 @@ export default {
             }
          return valids;
       },
-
       slide(eventTarget, finalTarget){
          let startTime = Date.now();
          let animationTime = 200;
@@ -108,15 +106,14 @@ export default {
             })
          }
       },
-
       check(){
          for(let i = 0; i < this.$refs['puzzle-tile'].length; i++){
             if(this.initial[i] !== this.$refs['puzzle-tile'][i].id){
-               bus.$emit('response', {grid: false});
+               bus.$emit('response', false);
                return;
             }
          }
-         bus.$emit('response', {grid: true}); //to Inventory
+         bus.$emit('response', true); //to Inventory
       }
    },
    watch: {
@@ -172,7 +169,7 @@ export default {
 
       bus.$on('background-tile', (data) => {
          document.getElementById('0').style['background-image'] = data;
-            bus.$emit('grid-finished') //to App
+         this.$store.state.puzzleFinish.grid = true;
       })
    }
 }

@@ -4,7 +4,7 @@
       <img class="grid-done" src="../assets/grid_finished.png" v-if="scene === 3 && puzzleFinish.grid && !filter">
       <img class="grid-done" src="../assets/grid_notes.png" v-if="scene === 3 && puzzleFinish.grid && filter">
       <gear-puzzle v-show="scene === 5"></gear-puzzle>
-      <flute-puzzle v-show="flute" :scene="scene"></flute-puzzle>
+      <flute-puzzle v-show="flute"></flute-puzzle>
    </div>
 </template>
 
@@ -15,15 +15,15 @@ import Gears from "./puzzles/Gears.vue"
 import {bus} from "../main"
 
 export default {
-   props:{
-      puzzleFinish:{
-         type: Object
+   computed:{
+      puzzleFinish(){
+         return this.$store.state.puzzleFinish
       },
-      scene:{
-         type: Number
+      scene(){
+         return this.$store.state.scene
       },
-      filter:{
-         type: Boolean
+      filter(){
+         return this.$store.state.filter
       }
    },
    components: {
@@ -36,14 +36,18 @@ export default {
          flute: false
       }
    },
+   watch:{
+      'puzzleFinish.flute'(){
+         if(this.puzzleFinish.flute){
+            this.flute = false;
+         }
+      }
+   },
    created(){
       bus.$on('flute-play', () => {
          this.flute = !this.flute;
          if(this.flute)
             setTimeout(() => {document.getElementById('flute').focus()}, 0)
-      })
-      bus.$on('flute-finished', () => {
-         this.flute = false;
       })
    }
 }

@@ -11,19 +11,19 @@
 <script>
 /*eslint-disable*/
 import {bus} from "../main"
+
 export default {
-   props:{
-      inventory:{
-         type: Object
+   computed:{
+      inventory(){
+         return this.$store.state.inventory
       },
-      scene:{
-         type: Number
+      scene(){
+         return this.$store.state.scene
       }
    },
    data(){
       return{
-         grid: {value: false},
-         gears: {value: false}
+         grid: false
       }
    },
    methods:{
@@ -33,11 +33,11 @@ export default {
             return
          }
          if(event.target.id === 'am'){
-            bus.$emit('color-filter') //to App
+            this.$store.state.filter = !this.$store.state.filter;
             return
          }
          if(event.target.id === 'tut'){
-            bus.$emit('display-sheet') //to Dialog
+            this.$store.state.sheet = !this.$store.state.sheet;
             return
          }
          event.preventDefault()
@@ -64,10 +64,10 @@ export default {
             document.removeEventListener('mousemove', dragStart);
             document.removeEventListener('mouseup', dragStop);
             setTimeout(()=>{
-               if(grid.value === true && target.id === 'ti' && scene === 3){
+               if(grid && target.id === 'ti' && scene === 3){
                   bus.$emit('background-tile', target.style['background-image'])  //listener in Grid
                   target.parentNode.removeChild(target);
-                  grid.value = false;
+                  grid = false;
                }
                else if(target.id === 'ge' && scene === 5){
                   bus.$emit('background-gear', target.style['background-image'])  //listener in Gears
@@ -83,12 +83,10 @@ export default {
       }
    },
    created(){
-      bus.$on('response', (data) => {  //from Grid/Gears
-         if(data.grid){
-            this.grid.value = data.grid
+      bus.$on('response', (data) => {  //from Grid
+         if(data){
+            this.grid = data
          }
-         else if(data.gears)
-            this.gears.value = data.gears
       })
    }
 }

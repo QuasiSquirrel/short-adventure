@@ -4,76 +4,76 @@
          <div id="canopy" v-show="puzzleFinish.flute && scene === 1"></div>
          <div id="item-ge" @click="pickup($event)"></div>
          <div id="alphabet-hint" @click="dialog"></div>
-         <div id="garden-to-porch" class="scene-change" @click="scenechange(2)"></div>
+         <div id="garden-to-porch" class="scene-change" @click="setScene(2)"></div>
       </div>
       <div class="scene" id="porch" v-show="scene === 2">
-         <div id="porch-to-garden" class="scene-change" @click="scenechange(1)"></div>
-         <div id="porch-to-grid" ref="porch-to-grid" @click="scenechange(3)"></div>
-         <div id="porch-to-room" class="scene-change" @click="scenechange(4)"></div>
+         <div id="porch-to-garden" class="scene-change" @click="setScene(1)"></div>
+         <div id="porch-to-grid" ref="porch-to-grid" @click="setScene(3)"></div>
+         <div id="porch-to-room" class="scene-change" @click="setScene(4)"></div>
       </div>
       <div class="scene" id="grid" v-show="scene === 3">
-         <div id="grid-to-porch" class="scene-change" @click="scenechange(2)"></div>
+         <div id="grid-to-porch" class="scene-change" @click="setScene(2)"></div>
       </div>
       <div class="scene" id="room" v-show="scene === 4">
-         <div id="room-to-porch" class="scene-change" @click="scenechange(2)"></div>
+         <div id="room-to-porch" class="scene-change" @click="setScene(2)"></div>
          <div id="item-ti" @click="pickup($event)"></div>
          <div id="item-am" @click="pickup($event)"></div>
          <div id="item-fl" @click="pickup($event)"></div>
          <div id="item-tut" @click="pickup($event)"></div>
-         <div id="room-to-gears" class="scene-change" @click="scenechange(5)"></div>
+         <div id="room-to-gears" class="scene-change" @click="setScene(5)"></div>
       </div>
       <div class="scene" id="gears" v-show="scene === 5">
-         <div id="gears-to-room" class="scene-change" @click="scenechange(4)"></div>
+         <div id="gears-to-room" class="scene-change" @click="setScene(4)"></div>
       </div>
       <keep-alive>
-         <puzzles id="puzzle" :puzzleFinish="puzzleFinish" :scene="scene" :filter="filter"></puzzles>
+         <puzzles id="puzzle"></puzzles>
       </keep-alive>
    </div>
 </template>
 
 <script>
 import Puzzles from "./Puzzles.vue"
-import {bus} from "../main"
+import { mapActions } from 'vuex'
 
 export default {
+   computed:{
+      puzzleFinish(){
+         return this.$store.state.puzzleFinish
+      },
+      filter(){
+         return this.$store.state.filter
+      },
+      scene(){
+         return this.$store.state.scene
+      }
+   },
    components:{
       "puzzles": Puzzles,
    },
-   props:{
-      puzzleFinish:{
-         type: Object
-      },
-      scene: {
-         type: Number
-      },
-      filter: {
-         type: Boolean
-      },
-      inventory:{
-         type: Object
-      }
-   },
    methods:{
+      ...mapActions([
+         'setConditionals',
+         'setScene',
+      ]),
       pickup(event){
          let id = event.target.id.substring(5);
          if(id === 'ti')
-            bus.$emit('tile-dialog') // to dialog
+            this.$store.state.conditionals.tile = true;
          if(id === 'ge')
-            bus.$emit('flower-dialog')
-         bus.$emit('picked', id);
+            this.$store.state.conditionals.flower = true;
+         this.$store.commit('setInventory', id)
          event.target.parentNode.removeChild(event.target);
       },
-      scenechange(number){
-         bus.$emit('scene-change', number);
-      },
       dialog(){
-         bus.$emit('alphabet-hint') //to dialog
+         this.$store.state.conditionals.hint = true;
+         this.$store.state.dialog = true;
       },
       canopy(){
          new Audio('/audio/song.ogg').play()
          const canopy = document.getElementById('canopy');
          const opacityStep = 0.005;
          let opacity = 0;
+         let that = this
          animate();
 
          function animate(){
@@ -84,7 +84,7 @@ export default {
                   animate();
                }
                else{
-                  bus.$emit('happy-birthday')
+                  that.$store.state.happy = true;
                   return;
                }
             })
@@ -109,11 +109,6 @@ export default {
          if(this.puzzleFinish.flute && this.scene === 1)
             this.canopy();
       }
-   },
-   created(){
-      bus.$on('grid-finished', () => {
-         this.$refs['porch-to-grid'].style['background-image'] = 'url("/grid/grid_from_porch_fin.png")'
-      })
    }
 }
 </script>

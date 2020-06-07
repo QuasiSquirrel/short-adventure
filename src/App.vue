@@ -1,9 +1,9 @@
 <template>
    <div id="main-screen">
-      <div id="sheet" v-show="sheet" @click="sheet =! sheet"></div>
-      <inventory id="inventory-space" :inventory="inventory" :scene="scene"></inventory>
-      <scene id="scene" :puzzleFinish="puzzleFinish" :scene="scene" :filter="filter" :class="{ filter: filter }" :inventory="inventory"></scene>
-      <dialog-box id="dialog" :scene="scene" :puzzleFinish="puzzleFinish" v-show="dialog"></dialog-box>
+      <div id="sheet" v-show="sheet" @click="setSheet"></div>
+      <inventory id="inventory-space"></inventory>
+      <scene id="scene" :class="{ filter: filter }"></scene>
+      <dialog-box id="dialog" v-show="dialog"></dialog-box>
       <div id="happy-birthday" v-if="happy">
          <p>Happy</p>
          <p>birthday!</p>
@@ -15,7 +15,7 @@
 import Inventory from "./components/Inventory.vue"
 import Scenes from "./components/Scenes.vue"
 import Dialog from "./components/Dialog.vue"
-import {bus} from "./main"
+import { mapActions } from 'vuex'
 
 export default {
    components:{
@@ -23,53 +23,24 @@ export default {
       "scene": Scenes,
       "dialog-box": Dialog
    },
-   data(){
-      return{
-         inventory: {ti: {id: 'ti', url: 'grid/9.png', picked: false, draggable: true},
-                     fl: {id: 'fl', url: 'inventory/fl.png', picked: false},
-                     am: {id: 'am', url: 'inventory/am.png', picked: false},
-                     ge: {id: 'ge', url: 'gears/mandala2.svg', picked: false, draggable: true},
-                     tut: {id: 'tut', url: 'inventory/tut.png', picked: false}},
-         scene: 1,
-         dialog: false,
-         puzzleFinish: {grid: false, gears: false, flute: false},
-         filter: false,
-         sheet: false,
-         happy: false
-      }
+   methods:{
+      ...mapActions([
+         'setSheet'
+      ])
    },
-   created(){
-      bus.$on('grid-finished', () => { //from Grid
-         this.puzzleFinish.grid = true;
-      })
-      bus.$on('gears-finished', () => { //from Gears
-         this.puzzleFinish.gears = true;
-      })
-      bus.$on('flute-finished', () => { //from Flute
-         this.puzzleFinish.flute = true;
-      })
-      bus.$on('scene-change', (number) =>{ //from Scene
-         this.scene = number;
-      })
-      bus.$on('color-filter', () => { //from Inventory
-         this.filter = !this.filter
-      })
-      bus.$on('picked', (id) => { //from Scene
-         this.inventory[id].picked = true
-      })
-      bus.$on('show-dialog', () => { //from Dialog
-         this.dialog = true;
-      })
-      bus.$on('hide-dialog', () => { // --||--
-         this.dialog = false;
-      })
-      bus.$on('display-sheet', () => {
-         this.sheet = true;
-      })
-      bus.$on('happy-birthday', () => {
-         this.happy = true;
-         
-      })
+   computed: {
+      sheet(){
+         return this.$store.state.sheet
+      },
+      filter(){
+         return this.$store.state.filter
+      },
+      dialog(){
+         return this.$store.state.dialog
+      },
+      happy(){
+         return this.$store.state.happy
+      }
    }
 }
 </script>
