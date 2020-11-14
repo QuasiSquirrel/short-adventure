@@ -47,16 +47,7 @@ export const store = new Vuex.Store({
          state.conditionals[payload] = !state.conditionals[payload];
       },
       setDialog(state){
-         state.dialog = !state.dialog
-      },
-      setFitler(state){
-         state.filter = !state.filter
-      },
-      setSheet(state){
-         state.sheet = !state.sheet
-      },
-      setHappy(state){
-         state.happy = !state.happy
+         state.dialog = !state.dialogx
       }
    },
    actions: {
