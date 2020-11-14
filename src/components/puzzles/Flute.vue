@@ -30,7 +30,7 @@ export default {
          previousTime: undefined,
          compareMeasure: 0,
          step: 0,
-         target: [[' s'], [' as', 2], [' a', 1]]
+         target: [[' ds'], [' ads', 2], [' as', 1]]
       }
    },
    methods:{
