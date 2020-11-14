@@ -47,7 +47,6 @@ export default {
          if(this.note.includes(event.key)) return;
          if(event.key === 'a' || event.key === 's' || event.key === 'd' || event.key === ' ')
             this.note.push(event.key)
-         console.log(this.note)
       },
       modifyNote(event){
          if(event.key === ' '){

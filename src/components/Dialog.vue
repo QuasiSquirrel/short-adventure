@@ -16,6 +16,11 @@
 import { mapActions } from 'vuex'
 
 export default {
+    data(){
+        return{
+            currentScene: 1
+        }
+    },
     methods:{
         ...mapActions([
             'setConditionals'
@@ -58,6 +63,15 @@ export default {
                     if(this.scene !== 1)
                         this.$store.state.conditionals.melody = true;
                 }, 3000)
+            }
+        },
+        scene(){
+            if(this.scene !== this.currentScene){
+                for(let i in this.conditionals)
+                    if(this.conditionals[i]){
+                        this.$store.state.conditionals[i] = false;
+                    }
+                this.$store.state.dialog = false;
             }
         }
     }

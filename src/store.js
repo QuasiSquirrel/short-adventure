@@ -33,7 +33,10 @@ export const store = new Vuex.Store({
    },
    mutations: {
       setScene(state, payload){
-         state.scene = payload;
+         const canopy = document.getElementById('canopy');
+         if(!canopy.style.opacity){
+            state.scene = payload;
+         }
       },
       setFinish(state, payload){
          state.puzzleFinish[payload] = !state.puzzleFinish[payload];
