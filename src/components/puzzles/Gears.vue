@@ -93,7 +93,7 @@ export default {
    width: 30vh;
    height: 30vh;
    left: -20vh;
-   background-image: url('/gears/mandala0.svg');
+   background-image: url('/gears/mandala_0.svg');
    background-size: contain;
    background-repeat: no-repeat;
 }
@@ -101,7 +101,7 @@ export default {
 #circle1 {
    grid-row: 7 / span 5;
    grid-column: 2 / span 5;
-   background-image: url('/gears/mandala1.svg');
+   background-image: url('/gears/mandala_1.svg');
    background-size: contain;
    background-repeat: no-repeat;
 }
@@ -116,7 +116,7 @@ export default {
 #circle3 {
    grid-row: 2 / span 11;
    grid-column: 9 / span 11;
-   background-image: url('/gears/mandala3.svg');
+   background-image: url('/gears/mandala_3.svg');
    background-size: contain;
    background-repeat: no-repeat;
 }
@@ -124,7 +124,7 @@ export default {
 #circle4 {
    grid-row: 12 / span 3;
    grid-column: 16 / span 3;
-   background-image: url('/gears/mandala4.svg');
+   background-image: url('/gears/mandala_4.svg');
    background-size: contain;
    background-repeat: no-repeat;
 }
@@ -135,7 +135,7 @@ export default {
    grid-column-start: 17;
    width: 50vh;
    height: 50vh;
-   background-image: url('/gears/mandala5.svg');
+   background-image: url('/gears/mandala_5.svg');
    background-size: contain;
    background-repeat: no-repeat;
 }

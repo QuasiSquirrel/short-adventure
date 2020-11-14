@@ -9,7 +9,7 @@ export const store = new Vuex.Store({
          ti: {id: 'ti', url: 'grid/9.png', picked: false, draggable: true},
          fl: {id: 'fl', url: 'inventory/fl.png', picked: false},
          am: {id: 'am', url: 'inventory/am.png', picked: false},
-         ge: {id: 'ge', url: 'gears/mandala2.svg', picked: false, draggable: true},
+         ge: {id: 'ge', url: 'gears/mandala_2.svg', picked: false, draggable: true},
          tut: {id: 'tut', url: 'inventory/tut.png', picked: false}
       },
       conditionals: {
